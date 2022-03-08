@@ -1,6 +1,4 @@
-﻿  Game.cpp
-C:\Github\canvas-engine\Game.cpp(81,12): warning C4244: '/=': conversion from 'float' to 'int', possible loss of data
-C:\Github\canvas-engine\Game.cpp(82,12): warning C4244: '/=': conversion from 'float' to 'int', possible loss of data
-C:\Github\canvas-engine\Game.cpp(117,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Github\canvas-engine\Game.cpp(118,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+﻿  FallingSandGame.cpp
+C:\Github\canvas-engine\FallingSandGame.cpp(65,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Github\canvas-engine\FallingSandGame.cpp(66,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   canvas-engine.vcxproj -> C:\Github\canvas-engine\x64\Debug\canvas-engine.exe

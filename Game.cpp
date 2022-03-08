@@ -2,15 +2,7 @@
 #include "ResourceLoader.h"
 #include <iostream>
 
-
-float scaleX = 1;
-float scaleY = 1;
-int xPos = 0;
-int yPos = 0;
-int mouseXPos;
-int mouseYPos;
-
-bool Game::Initialize(const std::string name, int screenWidth, int screenHeight)
+bool Game::InitializeSDL(const std::string name, int screenWidth, int screenHeight)
 {
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -35,52 +27,24 @@ bool Game::Initialize(const std::string name, int screenWidth, int screenHeight)
 		return false;
 	}
 
+	return true;
+}
+
+bool Game::InitializeResources()
+{
 	resourceLibrary = new ResourceLibrary();
-	resourceLibrary->Add(ResourceLoader::LoadTextureAsResourceObject(renderer, "Assets/letsgo.png", "0", "lets go image"));
+	return true;
+}
 
-
-
-	quit = false;
-
+bool Game::InitializeGame(void)
+{
 	return true;
 }
 
 void Game::PrepareScene(void)
 {
-	Uint8 red = mouseXPos % 255;
-	Uint8 green = mouseYPos % 255;
-	Uint8 blue = (mouseXPos + mouseYPos) % 255;
-
-	SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
-	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
-
-
-	ResourceObject* resObj = resourceLibrary->Get("0");
-	int SHAPE_SIZE = 200;
-
-	//SDL_Rect SrcR;
-	//SDL_Rect DestR;
-
-	//SrcR.x = 0;
-	//SrcR.y = 0;
-	//SrcR.w = SHAPE_SIZE;
-	//SrcR.h = SHAPE_SIZE;
-
-	//DestR.x = 640 / 2 - SHAPE_SIZE / 2;
-	//DestR.y = 580 / 2 - SHAPE_SIZE / 2;
-	//DestR.w = SHAPE_SIZE;
-	//DestR.h = SHAPE_SIZE;
-
-	SDL_Rect dest;
-	dest.x = xPos;
-	dest.y = yPos;
-
-	// gets info of the texture
-	SDL_QueryTexture(resObj->texture, NULL, NULL, &dest.w, &dest.h);
-	dest.w /= scaleX;
-	dest.h /= scaleY;
-	SDL_RenderCopy(renderer, resObj->texture, NULL, &dest);
 }
 
 void Game::PresentScene(void)
@@ -109,13 +73,6 @@ void Game::ProcessInput(void)
 // updates game logics
 void Game::Update(void) {
 
-
-	SDL_GetMouseState(&mouseXPos, &mouseYPos);
-
-	xPos = mouseXPos;
-	yPos = mouseYPos;
-	scaleX = mouseXPos / 100 + 1;
-	scaleY = mouseYPos / 100 + 1;
 }
 
 void Game::Draw(void)

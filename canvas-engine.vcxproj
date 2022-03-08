@@ -143,14 +143,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FallingSandGame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="PixelBehaviorEvaluator.cpp" />
+    <ClCompile Include="PixelChunk.cpp" />
     <ClCompile Include="ResourceLibrary.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="ResourceObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FallingSandGame.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="PixelBehaviorEvaluator.h" />
+    <ClInclude Include="PixelChunk.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceLibrary.h" />
     <ClInclude Include="ResourceLoader.h" />
@@ -161,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\letsgo.png" />
+    <Image Include="Assets\square.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
