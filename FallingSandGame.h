@@ -13,6 +13,8 @@ class FallingSandGame :
         ResourceObject* defaultSquare;
         void PrepareScene(void) override;
         void Update(void) override;
+        void Paint(void);
+        void Clear(void);
 
     public:
         bool InitializeResources(void) override;

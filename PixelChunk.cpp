@@ -51,9 +51,9 @@ void PixelChunk::Advance(void)
 				continue;
 			}
 
-			const tuple<short, short>* evaluation = evaluator->Evaluate(&grid, y, x);
-			int newY = y + std::get<1>(*evaluation);
-			int newX = x + std::get<0>(*evaluation);
+			const pair<short, short>* evaluation = evaluator->Evaluate(&grid, y, x);
+			int newY = y + (*evaluation).second;
+			int newX = x + (*evaluation).first;
 			if (IsIndexValid(newY, newX) && grid[newY][newX] == 0)
 			{
 				grid[newY][newX] = grid[y][x];

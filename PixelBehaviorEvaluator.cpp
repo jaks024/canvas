@@ -1,6 +1,5 @@
 #include "PixelBehaviorEvaluator.h"
-#include <tuple>
-using std::get;
+using std::pair;
 
 bool PixelBehaviorEvaluator::IsIndexValid(vector<vector<short>>* grid, int y, int x)
 {
@@ -12,22 +11,22 @@ bool PixelBehaviorEvaluator::IsIndexValid(vector<vector<short>>* grid, int y, in
 	return false;
 }
 
-const tuple<short, short>* PixelBehaviorEvaluator::Evaluate(vector<vector<short>>* fragment, int centerY, int centerX)
+const pair<short, short>* PixelBehaviorEvaluator::Evaluate(vector<vector<short>>* fragment, int centerY, int centerX)
 {
-	int newY = centerY + get<1>(BOT);
-	int newX = centerX + get<0>(BOT);
+	int newY = centerY + BOT.second;
+	int newX = centerX + BOT.first;
 	if (IsIndexValid(fragment, newY, newX) && (*fragment)[newY][newX] == 0) {
 		return &BOT;
 	}
 	bool left = rand() % 2 == 0 ? true : false;
-	newY = centerY + get<1>(BOT_LEFT);
-	newX = centerX + get<0>(BOT_LEFT);
+	newY = centerY + BOT_LEFT.second;
+	newX = centerX + BOT_LEFT.first;
 	if (left && IsIndexValid(fragment, newY, newX) && (*fragment)[newY][newX] == 0)
 	{
 		return &BOT_LEFT;
 	}
-	newY = centerY + get<1>(BOT_RIGHT);
-	newX = centerX + get<0>(BOT_RIGHT);
+	newY = centerY + BOT_RIGHT.second;
+	newX = centerX + BOT_RIGHT.first;
 	if (IsIndexValid(fragment, newY, newX) && (*fragment)[newY][newX] == 0)
 	{
 		return &BOT_RIGHT;

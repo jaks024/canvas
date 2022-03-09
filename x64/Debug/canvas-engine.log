@@ -1,4 +1,4 @@
 ﻿  FallingSandGame.cpp
-C:\Github\canvas-engine\FallingSandGame.cpp(65,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Github\canvas-engine\FallingSandGame.cpp(66,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Github\canvas-engine\FallingSandGame.cpp(75,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Github\canvas-engine\FallingSandGame.cpp(76,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   canvas-engine.vcxproj -> C:\Github\canvas-engine\x64\Debug\canvas-engine.exe

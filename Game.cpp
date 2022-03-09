@@ -12,7 +12,7 @@ bool Game::InitializeSDL(const std::string name, int screenWidth, int screenHeig
 	}
 
 	//Create window
-	window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
+	this->window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
 	if (window == NULL)
 	{
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -21,7 +21,7 @@ bool Game::InitializeSDL(const std::string name, int screenWidth, int screenHeig
 
 	// Create Renderer
 	//SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (renderer == NULL) {
 		printf("Renderer could not be created: %s", SDL_GetError());
 		return false;
@@ -30,15 +30,22 @@ bool Game::InitializeSDL(const std::string name, int screenWidth, int screenHeig
 	return true;
 }
 
-bool Game::InitializeResources()
+bool Game::InitializeResources(void)
 {
-	resourceLibrary = new ResourceLibrary();
+	this->resourceLibrary = new ResourceLibrary();
 	return true;
 }
 
 bool Game::InitializeGame(void)
 {
+	this->inputKeybindManager = new InputKeybindManager();
+	this->inputEventManager = new InputEventManager(this->inputKeybindManager, std::bind(&Game::OnQuitEvent, this));
 	return true;
+}
+
+void Game::OnQuitEvent(void)
+{
+	quit = true;
 }
 
 void Game::PrepareScene(void)
@@ -54,20 +61,7 @@ void Game::PresentScene(void)
 
 void Game::ProcessInput(void)
 {
-	SDL_Event event;
-
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-			case SDL_QUIT:
-				quit = true;
-				break;
-
-			default:
-				break;
-		}
-	}
+	this->inputEventManager->ProcessInput();
 }
 
 // updates game logics
@@ -96,9 +90,12 @@ void Game::Run(int framerate)
 
 void Game::Destroy(void)
 {
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	delete(resourceLibrary);
+	SDL_DestroyRenderer(this->renderer);
+	SDL_DestroyWindow(this->window);
+
+	delete(this->resourceLibrary);
+	delete(this->inputKeybindManager);
+	delete(this->inputEventManager);
 }
 
 void Game::Quit(void) {

@@ -144,6 +144,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FallingSandGame.cpp" />
+    <ClCompile Include="InputEventManager.cpp" />
+    <ClCompile Include="InputKeybindManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="PixelBehaviorEvaluator.cpp" />
@@ -155,6 +157,8 @@
   <ItemGroup>
     <ClInclude Include="FallingSandGame.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="InputEventManager.h" />
+    <ClInclude Include="InputKeybindManager.h" />
     <ClInclude Include="PixelBehaviorEvaluator.h" />
     <ClInclude Include="PixelChunk.h" />
     <ClInclude Include="resource.h" />
