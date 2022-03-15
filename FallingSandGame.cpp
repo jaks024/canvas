@@ -16,19 +16,10 @@ bool FallingSandGame::InitializeGame(void)
 {
 	Game::InitializeGame();
 
-	vector<PixelChunk*> chunkRow;
-	PixelChunk* chunk = new PixelChunk(CHUNK_SIZE, CHUNK_SIZE);
-	chunkRow.push_back(chunk);
-	chunkGrid.push_back(chunkRow);
-	currentChunk = chunk;
+	pixelGrid = new PixelGrid(10, 10, CHUNK_SIZE, CHUNK_SIZE, PIXEL_SIZE, 100, 100);
+	currentChunk = pixelGrid->Get(0);
 
-	inputKeybindManager->Add(SDLK_a, SDLK_a);
-	inputKeybindManager->Add(SDLK_d, SDLK_d);
-	inputKeybindManager->Add(SDLK_s, SDLK_s);
-	inputEventManager->BindBehaviorToKey(SDLK_a, std::bind(&PixelChunk::Advance, currentChunk));
-	inputEventManager->BindBehaviorToKey(SDLK_s, std::bind(&FallingSandGame::Paint, this));
-	inputEventManager->BindBehaviorToKey(SDLK_d, std::bind(&FallingSandGame::Clear, this));
-
+	BindKeys();
 
 	// randomize pixels
 	//for (int i = 0; i < CHUNK_SIZE; i++)
@@ -47,13 +38,7 @@ void FallingSandGame::Destroy(void)
 {
 	Game::Destroy();
 
-	for (size_t y = 0; y < chunkGrid.size(); y++)
-	{
-		for (size_t x = 0; x < chunkGrid[y].size(); x++)
-		{
-			delete(chunkGrid[y][x]);
-		}
-	}
+	delete(pixelGrid);
 }
 
 void FallingSandGame::PrepareScene(void)
@@ -62,23 +47,7 @@ void FallingSandGame::PrepareScene(void)
 	Game::PrepareScene(); 
 
 	// draw pixels
-	int offset = 100;
-	vector<vector<short>>* pixelGrid = &chunkGrid[0][0]->grid;
-	for (size_t y = 0; y < (*pixelGrid).size(); y++)
-	{
-		for (size_t x = 0; x < (*pixelGrid)[y].size(); x++)
-		{
-			if ((*pixelGrid)[y][x] > 0) {
-				SDL_Rect dest;
-				dest.w = PIXEL_SIZE;
-				dest.h = PIXEL_SIZE;
-				dest.x = offset + (x * dest.w);
-				dest.y = offset + (y * dest.h);
-
-				SDL_RenderCopy(renderer, defaultSquare->texture, NULL, &dest);
-			}
-		}
-	}
+	pixelGrid->Draw(renderer, defaultSquare);
 
 }
 
@@ -86,7 +55,7 @@ void FallingSandGame::Update(void)
 {
 	Game::Update();
 
-	currentChunk->Advance();
+	pixelGrid->Advance();
 	//printf("mouse pos: {%d, %d}", mouseXPos, mouseYPos);
 }
 
@@ -96,13 +65,7 @@ void FallingSandGame::Paint(void)
 	int mouseYPos;
 	SDL_GetMouseState(&mouseXPos, &mouseYPos);
 
-	int setY = (mouseYPos - 100) / 5;
-	int setX = (mouseXPos - 100) / 5;
-	currentChunk->Set(setY - 1, setX, 1);
-	currentChunk->Set(setY, setX, 1);
-	currentChunk->Set(setY, setX - 1, 1);
-	currentChunk->Set(setY + 1, setX, 1);
-	currentChunk->Set(setY, setX + 1, 1);
+	Brush(mouseXPos, mouseYPos, 1);
 }
 
 void FallingSandGame::Clear(void)
@@ -111,11 +74,25 @@ void FallingSandGame::Clear(void)
 	int mouseYPos;
 	SDL_GetMouseState(&mouseXPos, &mouseYPos);
 
-	int setY = (mouseYPos - 100) / 5;
-	int setX = (mouseXPos - 100) / 5;
-	currentChunk->Set(setY - 1, setX, 0);
-	currentChunk->Set(setY, setX, 0);
-	currentChunk->Set(setY, setX - 1, 0);
-	currentChunk->Set(setY + 1, setX, 0);
-	currentChunk->Set(setY, setX + 1, 0);
+	Brush(mouseXPos, mouseYPos, 0);
+}
+
+void FallingSandGame::BindKeys()
+{
+	inputKeybindManager->Add(SDLK_a, SDLK_a);
+	inputKeybindManager->Add(SDLK_d, SDLK_d);
+	inputKeybindManager->Add(SDLK_s, SDLK_s);
+	inputEventManager->BindBehaviorToKey(SDLK_a, std::bind(&PixelChunk::Advance, currentChunk));
+	inputEventManager->BindBehaviorToKey(SDLK_s, std::bind(&FallingSandGame::Paint, this));
+	inputEventManager->BindBehaviorToKey(SDLK_d, std::bind(&FallingSandGame::Clear, this));
+
+}
+
+void FallingSandGame::Brush(int mouseXPos, int mouseYPos, int value)
+{
+	pixelGrid->Set(mouseXPos, mouseYPos - PIXEL_SIZE, value);
+	pixelGrid->Set(mouseXPos, mouseYPos, value);
+	pixelGrid->Set(mouseXPos - PIXEL_SIZE, mouseYPos, value);
+	pixelGrid->Set(mouseXPos, mouseYPos + PIXEL_SIZE, value);
+	pixelGrid->Set(mouseXPos + PIXEL_SIZE, mouseYPos, value);
 }

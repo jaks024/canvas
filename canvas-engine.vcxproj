@@ -150,6 +150,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="PixelBehaviorEvaluator.cpp" />
     <ClCompile Include="PixelChunk.cpp" />
+    <ClCompile Include="PixelGrid.cpp" />
     <ClCompile Include="ResourceLibrary.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="ResourceObject.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="InputKeybindManager.h" />
     <ClInclude Include="PixelBehaviorEvaluator.h" />
     <ClInclude Include="PixelChunk.h" />
+    <ClInclude Include="PixelGrid.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceLibrary.h" />
     <ClInclude Include="ResourceLoader.h" />

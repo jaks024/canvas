@@ -1,6 +1,5 @@
 #include "PixelChunk.h"
 #include <iostream>
-
 bool PixelChunk::IsIndexValid(int y, int x)
 {
 	if (0 <= y && y < grid.size()) {
@@ -11,8 +10,11 @@ bool PixelChunk::IsIndexValid(int y, int x)
 	return false;
 }
 
-PixelChunk::PixelChunk(int width, int height, short initialValue)
+PixelChunk::PixelChunk(int width, int height, int chunkId, short initialValue)
 {
+	this->chunkId = chunkId;
+	this->chunkWidth = width;
+	this->chunkHeight = height;
 	evaluator = new PixelBehaviorEvaluator();
 	for (int i = 0; i < height; i++)
 	{
@@ -30,11 +32,17 @@ PixelChunk::~PixelChunk(void)
 	delete(evaluator);
 }
 
+void PixelChunk::SetPosition(int x, int y)
+{
+	this->originX = x;
+	this->originY = y;
+}
+
 void PixelChunk::Clear(void)
 {
-	for (int i = 0; i < grid.size(); i++)
+	for (int i = 0; i < chunkHeight; i++)
 	{
-		for (int j = 0; j < grid[i].size(); j++)
+		for (int j = 0; j < chunkWidth; j++)
 		{
 			grid[i][j] = NOTHING;
 		}
@@ -43,9 +51,9 @@ void PixelChunk::Clear(void)
 
 void PixelChunk::Advance(void)
 {
-	for (int y = grid.size() - 1; y >= 0; --y)
+	for (int y = chunkHeight - 1; y >= 0; --y)
 	{
-		for (int x = 0; x < grid[y].size(); ++x)
+		for (int x = 0; x < chunkWidth; ++x)
 		{
 			if (grid[y][x] == 0) {
 				continue;
@@ -74,12 +82,37 @@ void PixelChunk::Set(int y, int x, short value)
 void PixelChunk::Print(void)
 {
 	std::cout << "\x1B[2J\x1B[H";
-	for (int y = 0; y < grid.size(); y++)
+	for (int y = 0; y < chunkHeight; y++)
 	{
-		for (int x = 0; x < grid[y].size(); x++)
+		for (int x = 0; x < chunkWidth; x++)
 		{
 			printf("%d ", grid[y][x]);
 		}
 		printf("\n");
+	}
+}
+
+
+void PixelChunk::AddNeighbour(PixelChunk* newNeighbour)
+{
+	neighbours.push_back(newNeighbour);
+}
+
+void PixelChunk::Draw(SDL_Renderer* renderer, ResourceObject* textureObj, int pixelSize) 
+{
+	for (size_t y = 0; y < chunkHeight; y++)
+	{
+		for (size_t x = 0; x < chunkWidth; x++)
+		{
+			if (grid[y][x] > 0) {
+				SDL_Rect dest;
+				dest.w = pixelSize;
+				dest.h = pixelSize;
+				dest.x = this->originX + (x * dest.w);
+				dest.y = this->originY + (y * dest.h);
+
+				SDL_RenderCopy(renderer, textureObj->texture, NULL, &dest);
+			}
+		}
 	}
 }
