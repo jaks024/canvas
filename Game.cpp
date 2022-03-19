@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "ResourceLoader.h"
 #include <iostream>
+#include <thread>
+using std::thread;
 
 bool Game::InitializeSDL(const std::string name, int screenWidth, int screenHeight)
 {
@@ -77,15 +79,14 @@ void Game::Draw(void)
 
 void Game::Run(int framerate)
 {
-	if (quit) {
-		return;
+	while (!quit) {
+
+		ProcessInput();
+		Update();
+		Draw();
+
+		SDL_Delay(framerate);
 	}
-
-	ProcessInput();
-	Update();
-	Draw();
-
-	SDL_Delay(framerate);
 }
 
 void Game::Destroy(void)

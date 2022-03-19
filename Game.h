@@ -20,6 +20,8 @@ class Game
 		InputKeybindManager* inputKeybindManager;
 		InputEventManager* inputEventManager;
 
+		bool quit = false;
+
 		virtual void PrepareScene(void);
 		virtual void Update(void);
 		virtual void ProcessInput(void);
@@ -28,8 +30,6 @@ class Game
 		void OnQuitEvent(void);
 
 	public:
-
-		bool quit = false;
 		bool InitializeSDL(const std::string name, int screenWidth, int screenHeight);
 		virtual bool InitializeResources(void);
 		virtual bool InitializeGame(void);

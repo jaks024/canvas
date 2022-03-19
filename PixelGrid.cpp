@@ -1,5 +1,10 @@
 #include "PixelGrid.h"
 
+bool PixelGrid::IsIndexValid(int y, int x)
+{
+	return y >= 0 && y < height && x >= 0 && x < width;
+}
+
 PixelGrid::PixelGrid(int gridWidth, int gridHeight, int chunkWidth, int chunkHeight, int pixelSize, int originX, int originY)
 {
 	this->originX = originX;
@@ -16,11 +21,40 @@ PixelGrid::PixelGrid(int gridWidth, int gridHeight, int chunkWidth, int chunkHei
 		vector<PixelChunk*> row;
 		for (int x = 0; x < gridWidth; ++x) 
 		{
-			PixelChunk* chunk = new PixelChunk(chunkWidth, chunkHeight, y);
+			PixelChunk* chunk = new PixelChunk(chunkWidth, chunkHeight, {y, x});
 			chunk->SetPosition(originX + chunkWidth * x * pixelSize, originY + chunkHeight * y * pixelSize);
 			row.push_back(chunk);
 		}
 		grid.push_back(row);
+	}
+
+	// adding neighbours
+	for (auto& row : grid)
+	{
+		for (auto& chunk : row)
+		{
+			int currentY = chunk->chunkIndex.first;
+			int currentX = chunk->chunkIndex.second;
+			pair<int, int> neighbourIds[8] = {
+				{currentY - 1, currentX - 1},
+				{currentY - 1, currentX},
+				{currentY - 1, currentX + 1},
+				{currentY, currentX - 1},
+				{currentY, currentX + 1},
+				{currentY + 1, currentX - 1},
+				{currentY + 1, currentX},
+				{currentY + 1, currentX + 1}
+
+			};
+			for (auto& index : neighbourIds)
+			{
+				if (IsIndexValid(index.first, index.second)) 
+				{
+					chunk->AddNeighbour(grid[index.first][index.second]);
+					printf("added: (%d, %d) to (%d, %d)\n", currentY, currentX, index.first, index.second);
+				}
+			}
+		}
 	}
 }
 
@@ -37,22 +71,22 @@ PixelGrid::~PixelGrid(void)
 
 void PixelGrid::Advance(void)
 {
-	for (auto& chunkRow : grid)
+	for (int i = height - 1; i >= 0; --i)
 	{
-		for (auto& chunk : chunkRow)
+		for (auto& chunk : grid[i])
 		{
-			chunk->Advance();
+			chunk->Advance(width);
 		}
 	}
 }
 
-PixelChunk* PixelGrid::Get(int chunkId)
+PixelChunk* PixelGrid::Get(pair<int, int> chunkIndex)
 {
 	for (auto& row : grid)
 	{
 		for (auto& chunk : row)
 		{
-			if (chunk->chunkId == chunkId)
+			if (chunk->chunkIndex == chunkIndex)
 			{
 				return chunk;
 			}

@@ -8,15 +8,19 @@ class FallingSandGame :
     private:
         const int PIXEL_SIZE = 3;
         const int CHUNK_SIZE = 25;
+        const int GRID_WIDTH = 5;
+        const int GRID_HEIGHT = 5;
         PixelGrid* pixelGrid; 
         PixelChunk* currentChunk;
         ResourceObject* defaultSquare;
+        bool autoAdvance = false;
         void PrepareScene(void) override;
         void Update(void) override;
         void Paint(void);
         void Clear(void);
         void BindKeys();
         void Brush(int mouseXPos, int mouseYPos, int value);
+        void ToggleAutoAdvance(void);
 
     public:
         bool InitializeResources(void) override;

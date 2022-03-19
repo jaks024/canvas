@@ -12,9 +12,8 @@ int main(int argc, char* args[])
 	game->InitializeResources();
 	game->InitializeGame();
 	
-	while (!game->quit) {
-		game->Run(FRAMERATE_60);
-	}
+	game->Run(FRAMERATE_60);
+	
 	game->Destroy();
 	game->Quit();
 
