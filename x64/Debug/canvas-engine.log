@@ -1,2 +1,5 @@
-﻿  main.cpp
+﻿  ResourceLoader.cpp
+  FallingSandGame.cpp
+  PixelChunk.cpp
+  Generating Code...
   canvas-engine.vcxproj -> C:\Github\canvas-engine\x64\Debug\canvas-engine.exe

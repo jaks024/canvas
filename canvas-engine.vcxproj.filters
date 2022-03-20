@@ -30,34 +30,34 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="src\Framework\Game.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceLibrary.cpp">
+    <ClCompile Include="src\Framework\Resource\ResourceLibrary.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceLoader.cpp">
+    <ClCompile Include="src\Framework\Resource\ResourceLoader.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceObject.cpp">
+    <ClCompile Include="src\Framework\Resource\ResourceObject.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="FallingSandGame.cpp">
+    <ClCompile Include="src\Simulator\FallingSandGame.cpp">
       <Filter>Source Files\Simulation</Filter>
     </ClCompile>
-    <ClCompile Include="PixelChunk.cpp">
+    <ClCompile Include="src\Simulator\Pixel\PixelChunk.cpp">
       <Filter>Source Files\Simulation</Filter>
     </ClCompile>
-    <ClCompile Include="PixelBehaviorEvaluator.cpp">
+    <ClCompile Include="src\Simulator\Pixel\PixelBehaviorEvaluator.cpp">
       <Filter>Source Files\Simulation</Filter>
     </ClCompile>
-    <ClCompile Include="InputEventManager.cpp">
+    <ClCompile Include="src\Framework\Input\InputEventManager.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="InputKeybindManager.cpp">
+    <ClCompile Include="src\Framework\Input\InputKeybindManager.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="PixelGrid.cpp">
+    <ClCompile Include="src\Simulator\Pixel\PixelGrid.cpp">
       <Filter>Source Files\Simulation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,40 +65,40 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="include\Framework\Game.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceLibrary.h">
+    <ClInclude Include="include\Framework\Resource\ResourceLibrary.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceLoader.h">
+    <ClInclude Include="include\Framework\Resource\ResourceLoader.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceObject.h">
+    <ClInclude Include="include\Framework\Resource\ResourceObject.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="FallingSandGame.h">
+    <ClInclude Include="include\Simulator\FallingSandGame.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="PixelChunk.h">
+    <ClInclude Include="include\Simulator\Pixel\PixelChunk.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="PixelBehaviorEvaluator.h">
+    <ClInclude Include="include\Simulator\Pixel\PixelBehaviorEvaluator.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="InputEventManager.h">
+    <ClInclude Include="include\Framework\Input\InputEventManager.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="InputKeybindManager.h">
+    <ClInclude Include="include\Framework\Input\InputKeybindManager.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="PixelGrid.h">
+    <ClInclude Include="include\Simulator\Pixel\PixelGrid.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="PixelState.h">
+    <ClInclude Include="include\Simulator\Pixel\PixelState.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="PixelType.h">
+    <ClInclude Include="include\Simulator\Pixel\PixelType.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
   </ItemGroup>

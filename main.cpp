@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "FallingSandGame.h"
+#include "include/Simulator/FallingSandGame.h"
 
 #define TICK_INTERVAL    16
 

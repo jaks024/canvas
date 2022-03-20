@@ -143,32 +143,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FallingSandGame.cpp" />
-    <ClCompile Include="InputEventManager.cpp" />
-    <ClCompile Include="InputKeybindManager.cpp" />
+    <ClCompile Include="src\Simulator\FallingSandGame.cpp" />
+    <ClCompile Include="src\Framework\Input\InputEventManager.cpp" />
+    <ClCompile Include="src\Framework\Input\InputKeybindManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="PixelBehaviorEvaluator.cpp" />
-    <ClCompile Include="PixelChunk.cpp" />
-    <ClCompile Include="PixelGrid.cpp" />
-    <ClCompile Include="ResourceLibrary.cpp" />
-    <ClCompile Include="ResourceLoader.cpp" />
-    <ClCompile Include="ResourceObject.cpp" />
+    <ClCompile Include="src\Framework\Game.cpp" />
+    <ClCompile Include="src\Simulator\Pixel\PixelBehaviorEvaluator.cpp" />
+    <ClCompile Include="src\Simulator\Pixel\PixelChunk.cpp" />
+    <ClCompile Include="src\Simulator\Pixel\PixelGrid.cpp" />
+    <ClCompile Include="src\Framework\Resource\ResourceLibrary.cpp" />
+    <ClCompile Include="src\Framework\Resource\ResourceLoader.cpp" />
+    <ClCompile Include="src\Framework\Resource\ResourceObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FallingSandGame.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="InputEventManager.h" />
-    <ClInclude Include="InputKeybindManager.h" />
-    <ClInclude Include="PixelBehaviorEvaluator.h" />
-    <ClInclude Include="PixelChunk.h" />
-    <ClInclude Include="PixelGrid.h" />
-    <ClInclude Include="PixelState.h" />
-    <ClInclude Include="PixelType.h" />
+    <ClInclude Include="include\Simulator\FallingSandGame.h" />
+    <ClInclude Include="include\Framework\Game.h" />
+    <ClInclude Include="include\Framework\Input\InputEventManager.h" />
+    <ClInclude Include="include\Framework\Input\InputKeybindManager.h" />
+    <ClInclude Include="include\Simulator\Pixel\PixelBehaviorEvaluator.h" />
+    <ClInclude Include="include\Simulator\Pixel\PixelChunk.h" />
+    <ClInclude Include="include\Simulator\Pixel\PixelGrid.h" />
+    <ClInclude Include="include\Simulator\Pixel\PixelState.h" />
+    <ClInclude Include="include\Simulator\Pixel\PixelType.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ResourceLibrary.h" />
-    <ClInclude Include="ResourceLoader.h" />
-    <ClInclude Include="ResourceObject.h" />
+    <ClInclude Include="include\Framework\Resource\ResourceLibrary.h" />
+    <ClInclude Include="include\Framework\Resource\ResourceLoader.h" />
+    <ClInclude Include="include\Framework\Resource\ResourceObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="canvas-engine.rc" />
