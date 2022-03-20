@@ -3,84 +3,50 @@
 
 const pair<pair<short, short>, PixelChunk*> PixelBehaviorEvaluator::Evaluate(PixelChunk* chunk, int centerY, int centerX)
 {
-	int newY = centerY + BOT.second;
-	int newX = centerX + BOT.first;
-	//printf("pixel %d %d to %d %d\n", centerY, centerX, newY, newX);
-	if (chunk->IsIndexValid(newY, newX)) 
+	PixelChunk* neighbour = nullptr;
+	int newY = centerY + BOT.first;
+	int newX = centerX + BOT.second;
+
+	if (chunk->IsIndexValid(newY, newX))
 	{
 		if (chunk->IsLocationEmpty(newY, newX)) 
 		{
 			return { {newY, newX}, nullptr };
 		}
 	}
-	else
+	else if (CanSetNeighbour(chunk, BOT, centerY, centerX, newY, newX, neighbour))
 	{
-		PixelChunk* neighbour = chunk->IsNeighbourAvailableForSet(newY, newX);
-		if (neighbour != nullptr)
-		{
-			if (neighbour->IsLocationEmpty(newY, newX, true))
-			{
-		//		printf("bot location avaliable %d %d", newY, newX);
-				return { {newY, newX}, neighbour };
-			}
-		}
+		return { {newY, newX}, neighbour };
 	}
 
-	//printf("not bot\n");
 	bool left = rand() % 2 == 0 ? true : false;
-	newY = centerY + BOT_LEFT.second;
-	newX = centerX + BOT_LEFT.first;
+	newY = centerY + BOT_LEFT.first;
+	newX = centerX + BOT_LEFT.second;
 	if (left)
 	{
 		if (chunk->IsIndexValid(newY, newX))
 		{
-			if (chunk->IsLocationEmpty(newY, newX))
+			if (chunk->IsLocationEmpty(newY, newX)) 
 			{
 				return { {newY, newX}, nullptr };
 			}
 		}
-		else
+		else if (chunk->IsLocationCorner(centerY, centerX)) 
 		{
-			if (chunk->IsLocationCorner(centerY, centerX))
+			if (CanSetNeighbour(chunk, BOT_LEFT, centerY, centerX, newY, newX, neighbour)) 
 			{
-				PixelChunk* neighbour = chunk->IsNeighbourAvailableForSet(newY, newX);
-				if (neighbour != nullptr)
-				{
-					if (neighbour->IsLocationEmpty(newY, newX, true))
-					{
-						return { {newY, newX}, neighbour };
-					}
-				}
+				return { {newY, newX}, neighbour };
 			}
-			else
-			{
-		//		printf("looking for %d %d neighbour\n", centerY, newX);
-				PixelChunk* neighbour = chunk->IsNeighbourAvailableForSet(centerY, newX);
-				if (neighbour != nullptr)
-				{
-			//		printf("found neighbour: %d %d\n", neighbour->chunkIndex.first, neighbour->chunkIndex.second);
-					if (neighbour->IsLocationEmpty(newY, newX, true))
-					{
-				//		printf("location avaliable %d %d\n", newY, newX);
-						return { {newY, newX}, neighbour };
-					}
-				}
-				neighbour = chunk->IsNeighbourAvailableForSet(newY, newX);
-				if (neighbour != nullptr)
-				{
-					//printf("found neighbour: %d %d\n", neighbour->chunkIndex.first, neighbour->chunkIndex.second);
-					if (neighbour->IsLocationEmpty(newY, newX, true))
-					{
-						//printf("location avaliable %d %d\n", newY, newX);
-						return { {newY, newX}, neighbour };
-					}
-				}
-			}
+		} 
+		else if (CanSetNeighbour(chunk, LEFT, centerY, centerX, newY, newX, neighbour)
+			|| CanSetNeighbour(chunk, BOT_LEFT, centerY, centerX, newY, newX, neighbour))
+		{
+			return { {newY, newX}, neighbour };
 		}
 	}
-	//printf("not left\n");
-	newY = centerY + BOT_RIGHT.second;
-	newX = centerX + BOT_RIGHT.first;
+
+	newY = centerY + BOT_RIGHT.first;
+	newX = centerX + BOT_RIGHT.second;
 	if (chunk->IsIndexValid(newY, newX))
 	{
 		if (chunk->IsLocationEmpty(newY, newX))
@@ -88,45 +54,19 @@ const pair<pair<short, short>, PixelChunk*> PixelBehaviorEvaluator::Evaluate(Pix
 			return { {newY, newX}, nullptr };
 		}
 	}
-	else
+	else if (chunk->IsLocationCorner(centerY, centerX))
 	{
-		if (chunk->IsLocationCorner(centerY, centerX))
+		if (CanSetNeighbour(chunk, BOT_RIGHT, centerY, centerX, newY, newX, neighbour))
 		{
-			PixelChunk* neighbour = chunk->IsNeighbourAvailableForSet(newY, newX);
-			if (neighbour != nullptr)
-			{
-				if (neighbour->IsLocationEmpty(newY, newX, true))
-				{
-					return { {newY, newX}, neighbour };
-				}
-			}
-		}
-		else
-		{
-			//printf("looking for %d %d neighbour\n", centerY, newX);
-			PixelChunk* neighbour = chunk->IsNeighbourAvailableForSet(centerY, newX);
-			if (neighbour != nullptr)
-			{
-				//printf("found neighbour: %d %d\n", neighbour->chunkIndex.first, neighbour->chunkIndex.second);
-				if (neighbour->IsLocationEmpty(newY, newX, true))
-				{
-				//	printf("location avaliable %d %d\n", newY, newX);
-					return { {newY, newX}, neighbour };
-				}
-			}
-			neighbour = chunk->IsNeighbourAvailableForSet(newY, newX);
-			if (neighbour != nullptr)
-			{
-			//	printf("found neighbour: %d %d\n", neighbour->chunkIndex.first, neighbour->chunkIndex.second);
-				if (neighbour->IsLocationEmpty(newY, newX, true))
-				{
-		//			printf("location avaliable %d %d\n", newY, newX);
-					return { {newY, newX}, neighbour };
-				}
-			}
+			return { {newY, newX}, neighbour };
 		}
 	}
-	//printf("not right\n");
+	else if (CanSetNeighbour(chunk, RIGHT, centerY, centerX, newY, newX, neighbour)
+		|| CanSetNeighbour(chunk, BOT_RIGHT, centerY, centerX, newY, newX, neighbour))
+	{
+		return { {newY, newX}, neighbour };
+	}
+
 
 	return { {centerY, centerX}, nullptr };
 	/*
@@ -163,4 +103,25 @@ const pair<pair<short, short>, PixelChunk*> PixelBehaviorEvaluator::Evaluate(Pix
 			end
 	
 	*/
+}
+
+PixelChunk* PixelBehaviorEvaluator::CheckNeighbour(PixelChunk* chunk, int nY, int nX, int setY, int setX)
+{
+	PixelChunk* neighbour = chunk->IsNeighbourAvailableForSet(nY, nX);
+	if (neighbour != nullptr)
+	{
+		if (neighbour->IsLocationEmpty(setY, setX, true))
+		{
+			//		printf("bot location avaliable %d %d", newY, newX);
+			return neighbour;
+		}
+	}
+	return nullptr;
+}
+
+bool PixelBehaviorEvaluator::CanSetNeighbour(PixelChunk* chunk, const pair<int, int> neighbourDirection, 
+	int centerY, int centerX, int setY, int setX, PixelChunk*& neighbour)
+{
+	neighbour = CheckNeighbour(chunk, centerY + neighbourDirection.first, centerX + neighbourDirection.second, setY, setX);
+	return neighbour != nullptr;
 }

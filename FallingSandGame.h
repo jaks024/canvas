@@ -6,10 +6,10 @@ class FallingSandGame :
     public Game
 {
     private:
-        const int PIXEL_SIZE = 3;
-        const int CHUNK_SIZE = 25;
+        const int PIXEL_SIZE = 5;
+        const int CHUNK_SIZE = 40;
         const int GRID_WIDTH = 5;
-        const int GRID_HEIGHT = 5;
+        const int GRID_HEIGHT = 3;
         PixelGrid* pixelGrid; 
         PixelChunk* currentChunk;
         ResourceObject* defaultSquare;
@@ -19,7 +19,7 @@ class FallingSandGame :
         void Paint(void);
         void Clear(void);
         void BindKeys();
-        void Brush(int mouseXPos, int mouseYPos, int value);
+        void Brush(int mouseXPos, int mouseYPos, PixelType value);
         void ToggleAutoAdvance(void);
 
     public:

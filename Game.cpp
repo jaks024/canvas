@@ -79,14 +79,11 @@ void Game::Draw(void)
 
 void Game::Run(int framerate)
 {
-	while (!quit) {
+	ProcessInput();
+	Update();
+	Draw();
 
-		ProcessInput();
-		Update();
-		Draw();
-
-		SDL_Delay(framerate);
-	}
+	SDL_Delay(framerate);
 }
 
 void Game::Destroy(void)

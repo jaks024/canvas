@@ -58,7 +58,7 @@ void FallingSandGame::Paint(void)
 	int mouseYPos;
 	SDL_GetMouseState(&mouseXPos, &mouseYPos);
 
-	Brush(mouseXPos, mouseYPos, 1);
+	Brush(mouseXPos, mouseYPos, PixelType::SAND);
 }
 
 void FallingSandGame::Clear(void)
@@ -67,7 +67,7 @@ void FallingSandGame::Clear(void)
 	int mouseYPos;
 	SDL_GetMouseState(&mouseXPos, &mouseYPos);
 
-	Brush(mouseXPos, mouseYPos, 0);
+	Brush(mouseXPos, mouseYPos, PixelType::NOTHING);
 }
 
 void FallingSandGame::BindKeys()
@@ -83,7 +83,7 @@ void FallingSandGame::BindKeys()
 
 }
 
-void FallingSandGame::Brush(int mouseXPos, int mouseYPos, int value)
+void FallingSandGame::Brush(int mouseXPos, int mouseYPos, PixelType value)
 {
 	pixelGrid->Set(mouseXPos, mouseYPos - PIXEL_SIZE, value);
 	pixelGrid->Set(mouseXPos, mouseYPos, value);

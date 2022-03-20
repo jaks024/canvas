@@ -95,6 +95,12 @@
     <ClInclude Include="PixelGrid.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
+    <ClInclude Include="PixelState.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelType.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="canvas-engine.rc">

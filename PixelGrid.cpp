@@ -106,7 +106,7 @@ void PixelGrid::Draw(SDL_Renderer* renderer, ResourceObject* textureObj)
 	}
 }
 
-void PixelGrid::Set(int mousePosX, int mousePosY, short value)
+void PixelGrid::Set(int mousePosX, int mousePosY, PixelType value)
 {
 	int correctedX = (mousePosX - originX) / pixelSize;
 	int correctedY = (mousePosY - originY) / pixelSize;

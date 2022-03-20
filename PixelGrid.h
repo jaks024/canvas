@@ -24,6 +24,6 @@ class PixelGrid
 		void Advance(void);		// make this only advance active grid and the grid thats affected by advancing
 		PixelChunk* Get(pair<int, int> chunkIndex);
 		void Draw(SDL_Renderer* renderer, ResourceObject* textureObj);	// make this only show visible chunks on screen
-		void Set(int mousePosX, int mousePosY, short value);
+		void Set(int mousePosX, int mousePosY, PixelType value);
 };
 

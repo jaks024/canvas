@@ -29,17 +29,48 @@ int PixelChunk::ConvertToNeighbourIndex(int val, int limit)
 	return val;
 }
 
+void PixelChunk::UpdateSlowUpdateTimer(void)
+{
+	if (IsSlowUpdateFrame) {
+		IsSlowUpdateFrame = false;
+		return;
+	}
+
+	++slowUpdateTimer;
+	if (slowUpdateTimer == SLOW_UPDATE_TIME) {
+		slowUpdateTimer = 0;
+		IsSlowUpdateFrame = true;
+	}
+}
+
+void PixelChunk::UpdateState(int y, int x)
+{
+	switch (states[y][x])
+	{
+	case PixelState::LAST_MOVED:
+		states[y][x] = PixelState::LAST_STILL;
+		break;
+	case PixelState::LAST_STILL:
+		states[y][x] = PixelState::LAST_STILL_TWO_FRAME;
+		break;
+	case PixelState::LAST_STILL_TWO_FRAME:
+		states[y][x] = PixelState::LAST_STILL_THREE_FRAME;
+		break;
+	case PixelState::LAST_STILL_THREE_FRAME:
+		states[y][x] = PixelState::SLOW_UDPATE;
+		break;
+	}
+}
+
 bool PixelChunk::IsLocationEmpty(int y, int x, bool neighbourConvert)
 {
 	if (neighbourConvert) {
-		//printf("before convert %d %d at %d %d\n", chunkIndex.first, chunkIndex.second, y, x);
-		//printf("checking after convert %d %d at %d %d\n", chunkIndex.first, chunkIndex.second, ConvertToNeighbourIndex(y, chunkHeight), ConvertToNeighbourIndex(x, chunkWidth));
-		return grid[ConvertToNeighbourIndex(y, chunkHeight)][ConvertToNeighbourIndex(x, chunkWidth)] == NOTHING;
+		return grid[ConvertToNeighbourIndex(y, chunkHeight)][ConvertToNeighbourIndex(x, chunkWidth)] == PixelType::NOTHING;
 	}
-	return grid[y][x] == NOTHING;
+	return grid[y][x] == PixelType::NOTHING;
 }
 
-PixelChunk::PixelChunk(int width, int height, pair<int, int> chunkIndex, short initialValue)
+PixelChunk::PixelChunk(int width, int height, pair<int, int> chunkIndex, PixelType initialValue)
 {
 	this->chunkIndex = chunkIndex;
 	this->chunkWidth = width;
@@ -47,12 +78,15 @@ PixelChunk::PixelChunk(int width, int height, pair<int, int> chunkIndex, short i
 	evaluator = new PixelBehaviorEvaluator();
 	for (int i = 0; i < height; i++)
 	{
-		vector<short> row;
+		vector<PixelType> gridRow;
+		vector<PixelState> stateRow;
 		for (int h = 0; h < width; h++)
 		{
-			row.push_back(initialValue);
+			gridRow.push_back(initialValue);
+			stateRow.push_back(PixelState::LAST_STILL);
 		}
-		grid.push_back(row);
+		grid.push_back(gridRow);
+		states.push_back(stateRow);
 	}
 }
 
@@ -73,7 +107,7 @@ void PixelChunk::Clear(void)
 	{
 		for (int j = 0; j < chunkWidth; j++)
 		{
-			grid[i][j] = NOTHING;
+			grid[i][j] = PixelType::NOTHING;
 		}
 	}
 }
@@ -84,45 +118,35 @@ void PixelChunk::Advance(int neighbourIndexOffset)
 	{
 		for (int x = 0; x < chunkWidth; ++x)
 		{
-			if (IsLocationEmpty(y, x)) {
+			if (IsLocationEmpty(y, x) || (!IsSlowUpdateFrame && states[y][x] == PixelState::SLOW_UPDATE)) {
 				continue;
 			}
-
-
-			//printf("evalauted: %d %d\n", evaluation->second, evaluation->first);
-//printf("current: %d %d\n", y, x);
 
 			const pair<pair<short, short>, PixelChunk*> evaluation = evaluator->Evaluate(this, y, x);
+
+			// evaluated to stay still
 			if (evaluation.first.first == y && evaluation.first.second == x && evaluation.second == nullptr) {
+				UpdateState(y, x);
 				continue;
 			}
+			// evaluated to be able to move
 			if (evaluation.second == nullptr)
 			{
-				grid[evaluation.first.first][evaluation.first.second] = grid[y][x];
-				grid[y][x] = NOTHING;
+				Set_NoValidation(evaluation.first.first, evaluation.first.second, grid[y][x]);
+				Set_NoValidation(y, x, PixelType::NOTHING);
 			}
 			else 
 			{
 				int convertedY = ConvertToNeighbourIndex(evaluation.first.first, chunkHeight);
 				int convertedX = ConvertToNeighbourIndex(evaluation.first.second, chunkWidth);
-				//printf("in %d %d setting %d %d\n", chunkIndex.first, chunkIndex.second, convertedY, convertedX);
 				if (evaluation.second->Set(convertedY, convertedX, grid[y][x])) {
-					grid[y][x] = NOTHING;
+					Set_NoValidation(y, x, PixelType::NOTHING);
 				}
-
-				//newY = ConvertToNeighbourIndex(newY, chunkHeight);
-				//newX = ConvertToNeighbourIndex(newX, chunkWidth);
-				////printf("new coord: %d %d\n", newY, newX);
-				////printf("neightbour: %d %d\n", chunkIndex.first + evaluation->second, chunkIndex.second + evaluation->first);
-				//if (neighbour != nullptr && neighbour->IsLocationEmpty(newY, newX))
-				//{
-				//	//printf("to neighbour index: %d %d\n", neighbour->chunkIndex.second, neighbour->chunkIndex.first);
-				//	neighbour->Set(newY, newX, grid[y][x]);
-				//	grid[y][x] = NOTHING;
-				//}
 			}
 		}
 	}
+
+	UpdateSlowUpdateTimer();
 }
 
 bool PixelChunk::IsLocationCorner(int y, int x)
@@ -175,30 +199,28 @@ PixelChunk* PixelChunk::IsNeighbourAvailableForSet(int y, int x)
 		++yInd;
 		--xInd;
 	}
-	//printf("validating: %d %d\n", y, x);
-	//printf("checking neighbour: %d %d\n", yInd, xInd);
-	//for (auto& n : neighbours)
-	//{
-	//	printf("neighbouring %d %d\n", n.second->chunkIndex.first, n.second->chunkIndex.second);
-	//}
 
 	auto result = neighbours.find(std::make_pair(yInd, xInd));
 	if (result != neighbours.end())
 	{
-		//printf("found neighbour %d %d\n", result->second->chunkIndex.first, result->second->chunkIndex.second);
 		return result->second;
 	}
 	return  nullptr;
 }
 
-bool PixelChunk::Set(int y, int x, short value)
+bool PixelChunk::Set(int y, int x, PixelType type)
 {
 	if (IsIndexValid(y, x)) {
-		grid[y][x] = value;
-		//printf("Set {%d, %d}", y, x);
+		Set_NoValidation(y, x, type);
 		return true;
 	}
 	return false;
+}
+
+void PixelChunk::Set_NoValidation(int y, int x, PixelType type)
+{
+	states[y][x] = type == grid[y][x] ? PixelState::LAST_STILL : PixelState::LAST_MOVED;
+	grid[y][x] = type;
 }
 
 void PixelChunk::Print(void)
@@ -222,11 +244,11 @@ void PixelChunk::AddNeighbour(PixelChunk* newNeighbour)
 
 void PixelChunk::Draw(SDL_Renderer* renderer, ResourceObject* textureObj, int pixelSize) 
 {
-	for (size_t y = 0; y < chunkHeight; y++)
+	for (int y = 0; y < chunkHeight; y++)
 	{
-		for (size_t x = 0; x < chunkWidth; x++)
+		for (int x = 0; x < chunkWidth; x++)
 		{
-			if (grid[y][x] > 0) {
+			if (grid[y][x] != PixelType::NOTHING) {
 				SDL_Rect dest;
 				dest.w = pixelSize;
 				dest.h = pixelSize;

@@ -163,6 +163,8 @@
     <ClInclude Include="PixelBehaviorEvaluator.h" />
     <ClInclude Include="PixelChunk.h" />
     <ClInclude Include="PixelGrid.h" />
+    <ClInclude Include="PixelState.h" />
+    <ClInclude Include="PixelType.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceLibrary.h" />
     <ClInclude Include="ResourceLoader.h" />
