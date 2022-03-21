@@ -1,4 +1,5 @@
 #include "../../include/Simulator/FallingSandGame.h"
+#include "../../include/Simulator//Pixel/PixelPropertyLookupTable.h"
 using Framework::Resource::ResourceLoader;
 
 bool FallingSandGame::InitializeResources(void)
@@ -20,6 +21,27 @@ bool FallingSandGame::InitializeGame(void)
 	pixelGrid = new PixelGrid(GRID_WIDTH, GRID_HEIGHT, CHUNK_SIZE, CHUNK_SIZE, PIXEL_SIZE, 100, 100);
 	currentChunk = pixelGrid->Get({0, 0});
 
+
+	PixelTypeProperty* airProperty = new PixelTypeProperty();
+	airProperty->r = 0;
+	airProperty->g = 0;
+	airProperty->b = 0;
+
+	PixelTypeProperty* sandProperty = new PixelTypeProperty();
+	sandProperty->r = 255;
+	sandProperty->g = 250;
+	sandProperty->b = 205;
+
+	PixelTypeProperty* dirtProperty = new PixelTypeProperty();
+	dirtProperty->r = 193;
+	dirtProperty->g = 154;
+	dirtProperty->b = 107;
+
+	propertyTable = new PixelPropertyLookupTable();
+	propertyTable->AddProperty(PixelType::AIR, airProperty);
+	propertyTable->AddProperty(PixelType::SAND, sandProperty);
+	propertyTable->AddProperty(PixelType::DIRT, dirtProperty);
+
 	BindKeys();
 
 	return true;
@@ -30,6 +52,7 @@ void FallingSandGame::Destroy(void)
 	Game::Destroy();
 
 	delete(pixelGrid);
+	delete(propertyTable);
 }
 
 void FallingSandGame::PrepareScene(void)
@@ -38,7 +61,7 @@ void FallingSandGame::PrepareScene(void)
 	Game::PrepareScene(); 
 
 	// draw pixels
-	pixelGrid->Draw(renderer, defaultSquare);
+	pixelGrid->Draw(renderer, defaultSquare, propertyTable);
 
 }
 
@@ -52,13 +75,13 @@ void FallingSandGame::Update(void)
 	}
 }
 
-void FallingSandGame::Paint(void)
+void FallingSandGame::Paint(PixelType type)
 {
 	int mouseXPos;
 	int mouseYPos;
 	SDL_GetMouseState(&mouseXPos, &mouseYPos);
 
-	Brush(mouseXPos, mouseYPos, PixelType::SAND);
+	Brush(mouseXPos, mouseYPos, type);
 }
 
 void FallingSandGame::Clear(void)
@@ -67,17 +90,19 @@ void FallingSandGame::Clear(void)
 	int mouseYPos;
 	SDL_GetMouseState(&mouseXPos, &mouseYPos);
 
-	Brush(mouseXPos, mouseYPos, PixelType::NOTHING);
+	Brush(mouseXPos, mouseYPos, PixelType::AIR);
 }
 
 void FallingSandGame::BindKeys()
 {
 	inputKeybindManager->Add(SDLK_a, SDLK_a);
 	inputKeybindManager->Add(SDLK_d, SDLK_d);
-	inputKeybindManager->Add(SDLK_s, SDLK_s);
+	inputKeybindManager->Add(SDLK_1, SDLK_1);
+	inputKeybindManager->Add(SDLK_2, SDLK_2);
 	inputKeybindManager->Add(SDLK_f, SDLK_f);
 	inputEventManager->BindBehaviorToKey(SDLK_a, std::bind(&PixelGrid::Advance, pixelGrid));
-	inputEventManager->BindBehaviorToKey(SDLK_s, std::bind(&FallingSandGame::Paint, this));
+	inputEventManager->BindBehaviorToKey(SDLK_1, std::bind(&FallingSandGame::Paint, this, PixelType::SAND));
+	inputEventManager->BindBehaviorToKey(SDLK_2, std::bind(&FallingSandGame::Paint, this, PixelType::DIRT));
 	inputEventManager->BindBehaviorToKey(SDLK_d, std::bind(&FallingSandGame::Clear, this));
 	inputEventManager->BindBehaviorToKey(SDLK_f, std::bind(&FallingSandGame::ToggleAutoAdvance, this));
 

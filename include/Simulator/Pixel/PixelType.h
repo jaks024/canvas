@@ -2,6 +2,7 @@
 
 enum class PixelType
 {
-	NOTHING = 0,
-	SAND = 1
+	AIR = 0,
+	SAND = 1,
+	DIRT = 2
 };

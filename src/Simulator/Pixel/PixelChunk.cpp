@@ -65,9 +65,9 @@ void PixelChunk::UpdateState(int y, int x)
 bool PixelChunk::IsLocationEmpty(int y, int x, bool neighbourConvert)
 {
 	if (neighbourConvert) {
-		return grid[ConvertToNeighbourIndex(y, chunkHeight)][ConvertToNeighbourIndex(x, chunkWidth)] == PixelType::NOTHING;
+		return grid[ConvertToNeighbourIndex(y, chunkHeight)][ConvertToNeighbourIndex(x, chunkWidth)] == PixelType::AIR;
 	}
-	return grid[y][x] == PixelType::NOTHING;
+	return grid[y][x] == PixelType::AIR;
 }
 
 PixelChunk::PixelChunk(int width, int height, pair<int, int> chunkIndex, PixelType initialValue)
@@ -107,7 +107,7 @@ void PixelChunk::Clear(void)
 	{
 		for (int j = 0; j < chunkWidth; j++)
 		{
-			grid[i][j] = PixelType::NOTHING;
+			grid[i][j] = PixelType::AIR;
 		}
 	}
 }
@@ -122,7 +122,7 @@ void PixelChunk::Advance(int neighbourIndexOffset)
 				continue;
 			}
 
-			const pair<pair<short, short>, PixelChunk*> evaluation = evaluator->Evaluate(this, y, x);
+			const pair<pair<short, short>, PixelChunk*> evaluation = evaluator->Evaluate(grid[y][x], this, y, x);
 
 			// evaluated to stay still
 			if (evaluation.first.first == y && evaluation.first.second == x && evaluation.second == nullptr) {
@@ -133,14 +133,14 @@ void PixelChunk::Advance(int neighbourIndexOffset)
 			if (evaluation.second == nullptr)
 			{
 				Set_NoValidation(evaluation.first.first, evaluation.first.second, grid[y][x]);
-				Set_NoValidation(y, x, PixelType::NOTHING);
+				Set_NoValidation(y, x, PixelType::AIR);
 			}
 			else 
 			{
 				int convertedY = ConvertToNeighbourIndex(evaluation.first.first, chunkHeight);
 				int convertedX = ConvertToNeighbourIndex(evaluation.first.second, chunkWidth);
 				if (evaluation.second->Set(convertedY, convertedX, grid[y][x])) {
-					Set_NoValidation(y, x, PixelType::NOTHING);
+					Set_NoValidation(y, x, PixelType::AIR);
 				}
 			}
 		}
@@ -242,20 +242,31 @@ void PixelChunk::AddNeighbour(PixelChunk* newNeighbour)
 	neighbours.emplace(newNeighbour->chunkIndex, newNeighbour);
 }
 
-void PixelChunk::Draw(SDL_Renderer* renderer, ResourceObject* textureObj, int pixelSize) 
+void PixelChunk::Draw(SDL_Renderer* renderer, ResourceObject* textureObj, PixelPropertyLookupTable* propertyLookupTable, int pixelSize) 
 {
 	for (int y = 0; y < chunkHeight; y++)
 	{
 		for (int x = 0; x < chunkWidth; x++)
 		{
-			if (grid[y][x] != PixelType::NOTHING) {
-				SDL_Rect dest;
-				dest.w = pixelSize;
-				dest.h = pixelSize;
-				dest.x = this->originX + (x * dest.w);
-				dest.y = this->originY + (y * dest.h);
-				SDL_RenderCopy(renderer, textureObj->texture, NULL, &dest);
+
+			SDL_Rect dest;
+			dest.w = pixelSize;
+			dest.h = pixelSize;
+			dest.x = this->originX + (x * dest.w);
+			dest.y = this->originY + (y * dest.h);
+
+			if (grid[y][x] != PixelType::AIR) 
+			{
+				//SDL_SetRenderDrawColor(renderer, 2, 2, 2, 255);
+				PixelTypeProperty* prop = propertyLookupTable->Get(grid[y][x]);
+				SDL_SetTextureColorMod(textureObj->texture, prop->r, prop->g, prop->b);
 			}
+			else
+			{
+				int chunkIndexRGB = (chunkIndex.first + chunkIndex.second) * 5;
+				SDL_SetTextureColorMod(textureObj->texture, chunkIndexRGB, chunkIndexRGB, chunkIndexRGB);
+			}
+			SDL_RenderCopy(renderer, textureObj->texture, NULL, &dest);
 		}
 	}
 }

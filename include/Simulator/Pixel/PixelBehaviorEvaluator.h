@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "PixelType.h"
 using std::vector;
 using std::pair;
 
@@ -26,7 +27,7 @@ class PixelBehaviorEvaluator
 		const pair<short, short> BOT = { 1, 0 };
 		const pair<short, short> BOT_RIGHT = { 1, 1 };
 
-		const pair<pair<short, short>, PixelChunk*> Evaluate(PixelChunk* chunk, int centerY = 1, int centerX = 1);	// returns direction to go
+		const pair<pair<short, short>, PixelChunk*> Evaluate(PixelType type, PixelChunk* chunk, int centerY = 1, int centerX = 1);	// returns direction to go
 		PixelChunk* CheckNeighbour(PixelChunk* chunk, int nY, int nX, int setY, int setX);
 		bool CanSetNeighbour(PixelChunk* chunk, const pair<int, int> neighbourDirection, 
 			int centerY, int centerX, int setY, int setX, PixelChunk*& neighbour);

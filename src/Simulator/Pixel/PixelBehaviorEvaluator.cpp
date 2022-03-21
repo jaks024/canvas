@@ -1,8 +1,12 @@
 #include "../../../include/Simulator/Pixel/PixelBehaviorEvaluator.h"
 #include "../../../include/Simulator/Pixel/PixelChunk.h"
 
-const pair<pair<short, short>, PixelChunk*> PixelBehaviorEvaluator::Evaluate(PixelChunk* chunk, int centerY, int centerX)
+const pair<pair<short, short>, PixelChunk*> PixelBehaviorEvaluator::Evaluate(PixelType type, PixelChunk* chunk, int centerY, int centerX)
 {
+	if (type != PixelType::SAND) {
+		return { {centerY, centerX}, nullptr };
+	}
+
 	PixelChunk* neighbour = nullptr;
 	int newY = centerY + BOT.first;
 	int newX = centerX + BOT.second;

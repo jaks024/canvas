@@ -15,10 +15,11 @@ class FallingSandGame : public Game
         PixelGrid* pixelGrid; 
         PixelChunk* currentChunk;
         ResourceObject* defaultSquare;
+        PixelPropertyLookupTable* propertyTable;
         bool autoAdvance = false;
         void PrepareScene(void) override;
         void Update(void) override;
-        void Paint(void);
+        void Paint(PixelType type);
         void Clear(void);
         void BindKeys();
         void Brush(int mouseXPos, int mouseYPos, PixelType value);

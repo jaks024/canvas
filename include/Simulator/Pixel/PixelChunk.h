@@ -6,6 +6,7 @@
 #include "../../Framework/Resource/ResourceObject.h"
 #include "PixelState.h"
 #include "PixelType.h"
+#include "PixelPropertyLookupTable.h"
 using std::vector;
 using std::pair;
 using std::map;
@@ -33,7 +34,7 @@ class PixelChunk
 		int chunkWidth = 0;
 		int chunkHeight = 0;
 
-		PixelChunk(int width, int height, pair<int, int> chunkIndex, PixelType initialValue = PixelType::NOTHING);
+		PixelChunk(int width, int height, pair<int, int> chunkIndex, PixelType initialValue = PixelType::AIR);
 		~PixelChunk(void);
 		void SetPosition(int x, int y);
 		bool IsIndexValid(int y, int x);
@@ -46,6 +47,6 @@ class PixelChunk
 		void Set_NoValidation(int y, int x, PixelType type);
 		void AddNeighbour(PixelChunk* newNeighbour);
 		void Print(void);
-		void Draw(SDL_Renderer* renderer, ResourceObject* textureObj, int pixelSize);
+		void Draw(SDL_Renderer* renderer, ResourceObject* textureObj, PixelPropertyLookupTable* propertyLookupTable, int pixelSize);
 };
 

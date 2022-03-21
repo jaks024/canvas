@@ -51,7 +51,7 @@ PixelGrid::PixelGrid(int gridWidth, int gridHeight, int chunkWidth, int chunkHei
 				if (IsIndexValid(index.first, index.second)) 
 				{
 					chunk->AddNeighbour(grid[index.first][index.second]);
-					printf("added: (%d, %d) to (%d, %d)\n", currentY, currentX, index.first, index.second);
+					//printf("added: (%d, %d) to (%d, %d)\n", currentY, currentX, index.first, index.second);
 				}
 			}
 		}
@@ -95,13 +95,13 @@ PixelChunk* PixelGrid::Get(pair<int, int> chunkIndex)
 	return nullptr;
 }
 
-void PixelGrid::Draw(SDL_Renderer* renderer, ResourceObject* textureObj)
+void PixelGrid::Draw(SDL_Renderer* renderer, ResourceObject* textureObj, PixelPropertyLookupTable* propertyLookupTable)
 {
 	for (auto& row : grid)
 	{
 		for (auto& chunk : row)
 		{
-			chunk->Draw(renderer, textureObj, pixelSize);
+			chunk->Draw(renderer, textureObj, propertyLookupTable, pixelSize);
 		}
 	}
 }

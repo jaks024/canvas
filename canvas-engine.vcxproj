@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Simulator\Pixel\PixelPropertyLookupTable.cpp" />
     <ClCompile Include="src\Simulator\FallingSandGame.cpp" />
     <ClCompile Include="src\Framework\Input\InputEventManager.cpp" />
     <ClCompile Include="src\Framework\Input\InputKeybindManager.cpp" />
@@ -165,6 +166,8 @@
     <ClInclude Include="include\Simulator\Pixel\PixelGrid.h" />
     <ClInclude Include="include\Simulator\Pixel\PixelState.h" />
     <ClInclude Include="include\Simulator\Pixel\PixelType.h" />
+    <ClInclude Include="include\Simulator\Pixel\PixelPropertyLookupTable.h" />
+    <ClInclude Include="include\Simulator\Pixel\PixelTypeProperty.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="include\Framework\Resource\ResourceLibrary.h" />
     <ClInclude Include="include\Framework\Resource\ResourceLoader.h" />
