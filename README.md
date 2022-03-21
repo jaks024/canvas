@@ -1,4 +1,4 @@
-# Canvas Framework
+# Canvas Game Framework
 A simple game framework based on SDL2 with support for pixel simulation
 
 ## Why is it called "Canvas"?
