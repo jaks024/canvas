@@ -1,5 +1,5 @@
-#include "../../../include/Framework/Game.h"
-#include "../../../include/Framework/Resource/ResourceLoader.h"
+#include "../../include/Framework/Game.h"
+#include "../../include/Framework/Resource/ResourceLoader.h"
 #include <iostream>
 #include <thread>
 using std::thread;

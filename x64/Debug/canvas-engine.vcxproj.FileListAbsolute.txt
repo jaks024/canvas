@@ -1,2 +1,3 @@
 C:\Github\canvas-engine\canvas-engine\x64\Debug\canvas-engine.exe
 C:\Github\canvas-engine\x64\Debug\canvas-engine.exe
+F:\GitHub\canvas-game-framework\x64\Debug\canvas-engine.exe
