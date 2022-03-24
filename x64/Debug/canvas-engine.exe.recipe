@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>F:\GitHub\canvas-game-framework\x64\Debug\canvas-engine.exe</FullPath>
+      <FullPath>C:\Github\canvas-engine\x64\Debug\canvas-engine.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

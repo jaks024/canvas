@@ -1,2 +1,15 @@
-﻿  PixelChunk.cpp
-  canvas-engine.vcxproj -> F:\GitHub\canvas-game-framework\x64\Debug\canvas-engine.exe
+﻿  main.cpp
+  Game.cpp
+  InputEventManager.cpp
+  InputKeybindManager.cpp
+  ResourceLibrary.cpp
+  ResourceLoader.cpp
+  ResourceObject.cpp
+  FallingSandGame.cpp
+  PixelBehaviorEvaluator.cpp
+  PixelChunk.cpp
+  PixelGrid.cpp
+  PixelPropertyLookupTable.cpp
+  Generating Code...
+  LINK : C:\Github\canvas-engine\x64\Debug\canvas-engine.exe not found or not built by the last incremental link; performing full link
+  canvas-engine.vcxproj -> C:\Github\canvas-engine\x64\Debug\canvas-engine.exe
