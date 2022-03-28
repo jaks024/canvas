@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>F:\vslib\SDL2-2.0.20\include;F:\vslib\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\vslib\SDL2-2.0.20\lib\x64;F:\vslib\SDL2_image-2.0.5\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\vslib\SDL2_ttf-2.0.18\include;F:\vslib\SDL2-2.0.20\include;F:\vslib\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\vslib\SDL2_ttf-2.0.18\lib\x64;F:\vslib\SDL2-2.0.20\lib\x64;F:\vslib\SDL2_image-2.0.5\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -118,12 +118,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,6 +143,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Framework\UI\Background.cpp" />
+    <ClCompile Include="src\Framework\UI\Text.cpp" />
+    <ClCompile Include="src\Framework\UI\Component.cpp" />
     <ClCompile Include="src\Simulator\Pixel\PixelPropertyLookupTable.cpp" />
     <ClCompile Include="src\Simulator\FallingSandGame.cpp" />
     <ClCompile Include="src\Framework\Input\InputEventManager.cpp" />
@@ -157,6 +160,8 @@
     <ClCompile Include="src\Framework\Resource\ResourceObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Framework\UI\Background.h" />
+    <ClInclude Include="include\Framework\UI\Component.h" />
     <ClInclude Include="include\Simulator\FallingSandGame.h" />
     <ClInclude Include="include\Framework\Game.h" />
     <ClInclude Include="include\Framework\Input\InputEventManager.h" />
@@ -168,6 +173,7 @@
     <ClInclude Include="include\Simulator\Pixel\PixelType.h" />
     <ClInclude Include="include\Simulator\Pixel\PixelPropertyLookupTable.h" />
     <ClInclude Include="include\Simulator\Pixel\PixelTypeProperty.h" />
+    <ClInclude Include="include\Framework\UI\Text.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="include\Framework\Resource\ResourceLibrary.h" />
     <ClInclude Include="include\Framework\Resource\ResourceLoader.h" />
@@ -179,6 +185,9 @@
   <ItemGroup>
     <Image Include="Assets\letsgo.png" />
     <Image Include="Assets\square.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\roboto.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

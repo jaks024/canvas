@@ -6,12 +6,12 @@ namespace Framework::Resource
 {
 	struct ResourceObject
 	{
-		std::string id;
+		int id;
 		std::string name;
 		SDL_Texture* texture;
 		std::string path;
 
-		ResourceObject(std::string id, std::string name, SDL_Texture* texture, std::string path);
+		ResourceObject(int id, std::string name, SDL_Texture* texture, std::string path);
 		~ResourceObject();
 	};
 }

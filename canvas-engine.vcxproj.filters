@@ -63,6 +63,15 @@
     <ClCompile Include="src\Simulator\Pixel\PixelPropertyLookupTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Framework\UI\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Framework\UI\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Framework\UI\Background.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -110,6 +119,15 @@
     <ClInclude Include="include\Simulator\Pixel\PixelTypeProperty.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Framework\UI\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Framework\UI\Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Framework\UI\Background.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="canvas-engine.rc">
@@ -123,5 +141,8 @@
     <Image Include="Assets\square.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\roboto.ttf" />
   </ItemGroup>
 </Project>

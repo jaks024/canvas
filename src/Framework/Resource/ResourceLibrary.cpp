@@ -8,7 +8,7 @@ namespace Framework::Resource
 		return result.second;
 	}
 
-	bool ResourceLibrary::Remove(string id)
+	bool ResourceLibrary::Remove(int id)
 	{
 		ResourceObject* resObj = Get(id);
 		if (resObj != nullptr) {
@@ -19,7 +19,7 @@ namespace Framework::Resource
 		return false;
 	}
 
-	ResourceObject* ResourceLibrary::Get(string id)
+	ResourceObject* ResourceLibrary::Get(int id)
 	{
 		auto result = resourceLibrary.find(id);
 		if (result != resourceLibrary.end()) {
@@ -31,17 +31,19 @@ namespace Framework::Resource
 	std::vector<ResourceObject*> ResourceLibrary::Get()
 	{
 		std::vector<ResourceObject*> values;
-		for (std::map<string, ResourceObject*>::iterator it = resourceLibrary.begin(); it != resourceLibrary.end(); ++it) {
-			values.push_back(it->second);
+		for (auto& [key, resObj] : resourceLibrary)
+		{
+			values.emplace_back(resObj);;
 		}
 		return values;
 	}
 
 	void ResourceLibrary::Clear(void)
 	{
-		for (std::map<string, ResourceObject*>::iterator it = resourceLibrary.begin(); it != resourceLibrary.end(); ++it) {
-			delete(it->second);
-			printf("Freed: %s", it->second->id.c_str());
+		for (auto& [key, resObj] : resourceLibrary)
+		{
+			printf("Freed: %d", resObj->id);
+			delete(resObj);
 		}
 		resourceLibrary.clear();
 		printf("All resources cleared");

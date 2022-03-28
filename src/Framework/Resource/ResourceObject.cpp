@@ -2,7 +2,7 @@
 
 namespace Framework::Resource
 {
-	ResourceObject::ResourceObject(std::string id, std::string name, SDL_Texture* texture, std::string path)
+	ResourceObject::ResourceObject(int id, std::string name, SDL_Texture* texture, std::string path)
 	{
 		this->id = id;
 		this->name = name;

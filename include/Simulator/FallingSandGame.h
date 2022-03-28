@@ -1,6 +1,11 @@
 #pragma once
 #include "../Framework/Game.h"
 #include "Pixel/PixelGrid.h"
+#include "../../include/Framework/UI/Text.h"
+#include "../../include/Framework/UI/Background.h"
+using Framework::UI::Text;
+using Framework::UI::Component;
+using Framework::UI::Background;
 using std::vector;
 using Framework::Game;
 using Framework::Resource::ResourceObject;
@@ -24,6 +29,9 @@ class FallingSandGame : public Game
         void BindKeys();
         void Brush(int mouseXPos, int mouseYPos, PixelType value);
         void ToggleAutoAdvance(void);
+
+        Text* uiComponent;
+
 
     public:
         bool InitializeResources(void) override;

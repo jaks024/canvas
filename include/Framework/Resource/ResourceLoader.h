@@ -10,6 +10,9 @@ namespace Framework::Resource
 	{
 		static const string ASSET_FOLDER_PATH;
 	public:
-		static ResourceObject* LoadTextureAsResourceObject(SDL_Renderer* renderer, string filename, string id, string name);
+		static int resourceCreatedCount;
+		static ResourceObject* LoadTextureAsResourceObject(SDL_Renderer* renderer, const string filename, const string name);
+		static ResourceObject* LoadTextAsResourceObject(SDL_Renderer* renderer, const string fontPath, const int fontSize,
+			const SDL_Color textColor, const string message, const string name);
 	};
 }

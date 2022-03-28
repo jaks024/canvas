@@ -1,13 +1,14 @@
 #include "../../include/Simulator/FallingSandGame.h"
-#include "../../include/Simulator//Pixel/PixelPropertyLookupTable.h"
+#include "../../include/Simulator/Pixel/PixelPropertyLookupTable.h"
+#include <format>
 using Framework::Resource::ResourceLoader;
 
 bool FallingSandGame::InitializeResources(void)
 {
 	if (Game::InitializeResources())
 	{
-		resourceLibrary->Add(ResourceLoader::LoadTextureAsResourceObject(renderer, "square.png", "square", "white_square"));
-		defaultSquare = resourceLibrary->Get("square");
+		resourceLibrary->Add(ResourceLoader::LoadTextureAsResourceObject(renderer, "square.png", "square"));
+		defaultSquare = resourceLibrary->Get(0);
 		printf("Loading Resource Complete\n");
 		return true;
 	}
@@ -44,6 +45,11 @@ bool FallingSandGame::InitializeGame(void)
 
 	BindKeys();
 
+	uiComponent = new Text(0, "test_message", "roboto.ttf");
+	Background* bg = new Background(1, "bg", { 55, 55, 55 }, defaultSquare, 200, 50);
+	bg->SetPosition(-50, -10);
+	uiComponent->AddChild(bg);
+
 	return true;
 }
 
@@ -63,6 +69,8 @@ void FallingSandGame::PrepareScene(void)
 	// draw pixels
 	pixelGrid->Draw(renderer, defaultSquare, propertyTable);
 
+	// draw UI
+	uiComponent->Draw(renderer);
 }
 
 void FallingSandGame::Update(void)
@@ -73,6 +81,13 @@ void FallingSandGame::Update(void)
 	{
 		pixelGrid->Advance();
 	}
+
+	int mouseXPos;
+	int mouseYPos;
+	SDL_GetMouseState(&mouseXPos, &mouseYPos);
+	uiComponent->SetPosition(mouseXPos, mouseYPos);
+	uiComponent->SetText(std::format("[{},{}]", mouseXPos, mouseYPos));
+
 }
 
 void FallingSandGame::Paint(PixelType type)

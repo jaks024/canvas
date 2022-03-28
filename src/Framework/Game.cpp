@@ -32,6 +32,8 @@ namespace Framework
 			return false;
 		}
 
+		SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
+
 		return true;
 	}
 
